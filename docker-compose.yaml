@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+
+  slim-docker:
+    image: comicrelief/php7-slim:latest
+    volumes:
+      - ~/Code/Slim-Docker:/var/www/html
+    ports:
+      - "9001:80"
+    depends_on:
+      - slim-docker-mysql
+    environment:
+      APPLICATION_ENV: local
+
+  slim-docker-mysql:
+    image: mysql:5
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword
+      MYSQL_DATABASE: slim-docker

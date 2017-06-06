@@ -13,5 +13,5 @@ $app = new \Slim\App([
 ]);
 
 $app->get('/', function ($request, $response) {
-    return 'Home';
+    return 'Home sweet home';
 });
