@@ -1,9 +1,10 @@
 <?php
 
+define('DIR', __DIR__);
+
 session_start();
 
-require __DIR__ . '/../vendor/autoload.php';
-
+require DIR . '/../vendor/autoload.php';
 
 $app = new \Slim\App([
     'settings' => [
@@ -12,6 +13,24 @@ $app = new \Slim\App([
     ]
 ]);
 
-$app->get('/', function ($request, $response) {
-    return 'Home sweet home';
-});
+
+$container = $app->getContainer();
+
+$container['view'] = function ($container) {
+    $view = new \Slim\Views\Twig(DIR . '/../resources/views', [
+        'cache' => false,
+    ]);
+
+    $view->addExtension(new \Slim\Views\TwigExtension(
+        $container->router,
+        $container->request->getUri()
+    ));
+
+    return $view;
+};
+
+$container['HomeController'] = function ($container) {
+    return new \App\Controllers\HomeController($container);
+};
+
+require DIR . '/../app/routes.php';

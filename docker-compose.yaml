@@ -20,3 +20,4 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: mypassword
       MYSQL_DATABASE: slim-docker
+
