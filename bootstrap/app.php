@@ -12,7 +12,6 @@ $app = new \Slim\App([
     ],
 ]);
 
-
 $container = $app->getContainer();
 
 $container['config'] = function ($container) {
@@ -46,10 +45,6 @@ $container['view'] = function ($container) {
     ));
 
     return $view;
-};
-
-$container['HomeController'] = function ($container) {
-    return new \App\Controllers\HomeController($container);
 };
 
 $controllers = [
