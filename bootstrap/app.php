@@ -22,20 +22,30 @@ $container['config'] = function ($container) {
     return $config;
 };
 
-/*$container['db'] = function ($container) {
+$container['db'] = function ($container) {
     $db = $container->config->db;
 
-    try
+    /*try
     {
-        $pdo =  new PDO("mysql:host='127.0.0.1';dbname='slim';", 'root', '');
+        $pdo =  new PDO("mysql:host='192.168.99.100';port='8181';dbname='slim';", 'root', 'admin');
+        var_dump($pdo);
+        die;
     }
     catch (PDOException $e)
     {
         echo $e->getMessage();
 
-    }
-};*/
+    }*/
+};
+$pdo =   new \PDO('mysql:host=mysql;port=3306;dbname=slim', 'root', 'admin');
+$sth = $pdo->prepare("SELECT * FROM users");
+$sth->execute();
 
+/* Fetch all of the remaining rows in the result set */
+$result = $sth->fetchAll();
+
+var_dump($result);
+die;
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig(DIR . '/../resources/views', [
         'cache' => false,

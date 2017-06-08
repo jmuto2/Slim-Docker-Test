@@ -1,8 +1,20 @@
 version: '2'
 
 services:
+  nginx:
+    image: nginx
+    ports:
+        - "80:80"
+    links:
+        - slim
+    volumes:
+        - ./nginx/default:/etc/nginx/sites-available/default
+        - ./nginx/default:/etc/nginx/sites-enabled/default
 
-  slim-docker:
+        - ./logs/nginx-error.log:/var/log/nginx/error.log
+        - ./logs/nginx-access.log:/var/log/nginx/access.log
+
+  slim:
     image: comicrelief/php7-slim:latest
     volumes:
       - ~/Code/Slim-Docker:/var/www/html
