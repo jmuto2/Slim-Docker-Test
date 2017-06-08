@@ -25,27 +25,16 @@ $container['config'] = function ($container) {
 $container['db'] = function ($container) {
     $db = $container->config->db;
 
-    /*try
+    try
     {
-        $pdo =  new PDO("mysql:host='192.168.99.100';port='8181';dbname='slim';", 'root', 'admin');
-        var_dump($pdo);
-        die;
+        return  new \PDO("mysql:host=$db->host;port=$db->port;dbname=$db->database", $db->username, $db->password);
     }
     catch (PDOException $e)
     {
-        echo $e->getMessage();
-
-    }*/
+        return $e->getMessage();
+    }
 };
-$pdo =   new \PDO('mysql:host=mysql;port=3306;dbname=slim', 'root', 'admin');
-$sth = $pdo->prepare("SELECT * FROM users");
-$sth->execute();
 
-/* Fetch all of the remaining rows in the result set */
-$result = $sth->fetchAll();
-
-var_dump($result);
-die;
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig(DIR . '/../resources/views', [
         'cache' => false,
@@ -62,6 +51,18 @@ $container['view'] = function ($container) {
 $container['HomeController'] = function ($container) {
     return new \App\Controllers\HomeController($container);
 };
+
+$controllers = [
+    'Home',
+    'Users',
+];
+
+foreach ($controllers as $controller) {
+    $class = "\\App\\Controllers\\" . $controller;
+    $container[$controller] = function ($container) use ($class) {
+        return new $class($container);
+    };
+}
 
 require DIR . '/../app/routes.php';
 
