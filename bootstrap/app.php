@@ -9,11 +9,30 @@ require DIR . '/../vendor/autoload.php';
 $app = new \Slim\App([
     'settings' => [
         'displayErrorDeatails' => true,
+        'db' => [
+            'driver' => 'mysql',
+            'host' => 'mysql',
+            'database' => 'slim',
+            'username' => 'root',
+            'password' => 'admin',
+            'collation' => 'utf8_unciode_ci',
+            'port' => '3306'
+        ]
     ],
 ]);
 
 
 $container = $app->getContainer();
+
+//Eloquent
+$capsule = new \Illuminate\Database\Capsule\Manager;
+$capsule->addConnection($container['settings']['db']);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+
+$container['model'] = function ($container) use ($capsule) {
+    return $capsule;
+};
 
 $container['config'] = function ($container) {
     $config = file_get_contents(__DIR__ . '/config.json');
@@ -48,21 +67,10 @@ $container['view'] = function ($container) {
     return $view;
 };
 
-$container['HomeController'] = function ($container) {
-    return new \App\Controllers\HomeController($container);
-};
+$container['HomeController'] = function ($container) { return new \App\Controllers\HomeController($container); };
+$container['AuthController'] = function ($container) { return new \App\Controllers\AuthController($container); };
+$container['UserController'] = function ($container) { return new \App\Controllers\UserController($container); };
 
-$controllers = [
-    'Home',
-    'Users',
-];
-
-foreach ($controllers as $controller) {
-    $class = "\\App\\Controllers\\" . $controller;
-    $container[$controller] = function ($container) use ($class) {
-        return new $class($container);
-    };
-}
 
 require DIR . '/../app/routes.php';
 
