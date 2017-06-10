@@ -13,6 +13,8 @@ class AuthController extends Controller
 
     public function postSignUp($request, $response)
     {
+        $this->createUserTableIfNotExists();
+
         $data = (object)$request->getParams();
 
         $sql = "
@@ -51,5 +53,20 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'User signed up'
         ]);
+    }
+
+    private function createUserTableIfNotExists()
+    {
+        $sql = "
+            CREATE TABLE IF NOT EXISTS users (
+                id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+                name VARCHAR(255) NOT NULL,
+                email VARCHAR(30) NOT NULL,
+                password VARCHAR(50) NOT NULL,
+                created_at DATETIME,
+                updated_at DATETIME
+        )";
+        $stm = $this->db->prepare($sql);
+        $stm->execute();
     }
 }
