@@ -10,6 +10,29 @@ use Respect\Validation\Validator as v;
 
 class AuthController extends Controller
 {
+    public function getSignIn($request, $response)
+    {
+        return $this->view->render($response, 'signin.twig');
+    }
+
+    public function postSignIn($request, $response)
+    {
+        $auth = $this->auth->attempt(
+            $request->getParam('email'),
+            $request->getParam('password')
+        );
+
+        if (!$auth) {
+            return json_encode([
+                'success' => false
+            ]);
+        }
+
+        return json_encode([
+            'success' => true
+        ]);
+    }
+
     public function getSignUp($request, $response)
     {
         return $this->view->render($response, 'signup.twig');
@@ -52,7 +75,7 @@ class AuthController extends Controller
         $validator = $this->validator->validate($request, [
             'email' => v::noWhitespace()->notEmpty()->email()->emailAvailable(),
             'name' => v::notEmpty()->alpha(),
-            'password' => v::noWhitespace()->notEmpty(),
+            'password' => v::alnum()->noWhitespace()->length(4, 16),
         ]);
 
         return $validator;
@@ -60,13 +83,11 @@ class AuthController extends Controller
 
     private function userCreate($data)
     {
-        $datetime = new \DateTime('now');
-
         $user = new User();
         $user->name = $data->name;
         $user->email = $data->email;
-        $user->password = password_hash($data->password, PASSWORD_BCRYPT);
-        $user->created_at = $datetime;
+        $user->password = password_hash($data->password, PASSWORD_DEFAULT);
+        $user->created_at = new \DateTime('now');
         $user->updated_at = null;
         $user->save();
     }

@@ -55,6 +55,10 @@ $container['db'] = function ($container) {
     }
 };
 
+$container['auth'] = function ($container) {
+    return new App\Auth\Auth;
+};
+
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig(DIR . '/../resources/views', [
         'cache' => false,
@@ -65,6 +69,10 @@ $container['view'] = function ($container) {
         $container->request->getUri()
     ));
 
+    $view->getEnvironment()->addGlobal('auth', [
+        'check' => $container->auth->check(),
+        'user' => $container->auth->user(),
+    ]);
     return $view;
 };
 
@@ -72,16 +80,19 @@ $container['validator'] = function ($container) {
     return new App\Validation\Validator;
 };
 
-$container['user'] = function ($container) {
-    return $container->Auth->user();
-};
-
 $container['AuthController'] = function ($container) { return new \App\Controllers\AuthController($container); };
 $container['HomeController'] = function ($container) { return new \App\Controllers\HomeController($container); };
 $container['UserController'] = function ($container) { return new \App\Controllers\UserController($container); };
 
+/*$container['csrf'] = function ($container) {
+  return new \Slim\Csrf\Guard;
+};*/
+
 $app->add(new \App\Middleware\ValidationErrorsMiddleware($container));
 $app->add(new \App\Middleware\FormDataMiddleware($container));
+//$app->add(new \App\Middleware\CsrfViewMiddleware($container));
+
+//$app->add($container->csrf);
 
 v::with('App\\Validation\\Rules\\');
 

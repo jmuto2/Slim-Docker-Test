@@ -5,7 +5,11 @@ $routes = (object) [
         ['get', '/home',
             'AuthController:getSignUp', 'auth.getsignup'],
         ['post', '/home',
-            'AuthController:postSignUp', 'auth.signup']
+            'AuthController:postSignUp', 'auth.signup'],
+        ['get', '/signin',
+            'AuthController:getSignIn', 'auth.getsignin'],
+        ['post', '/signin',
+            'AuthController:postSignIn', 'auth.signin']
     ],
     'user' => [
         ['get', '/dashboard',
