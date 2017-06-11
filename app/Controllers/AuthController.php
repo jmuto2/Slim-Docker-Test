@@ -60,9 +60,9 @@ class AuthController extends Controller
         $sql = "
             CREATE TABLE IF NOT EXISTS users (
                 id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-                name VARCHAR(255) NOT NULL,
-                email VARCHAR(30) NOT NULL,
-                password VARCHAR(50) NOT NULL,
+                name VARCHAR(255) NOT NULL CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+                email VARCHAR(30) NOT NULL CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+                password CHAR (60) NOT NULL CHARACTER SET utf8 COLLATE utf8_unicode_ci,
                 created_at DATETIME,
                 updated_at DATETIME
         )";
