@@ -2,7 +2,11 @@
 
 namespace App\Controllers;
 
+use App\Models\User;
+use App\Validation\Validator;
+use Slim\Http\Request;
 use Slim\Views\Twig as View;
+use Respect\Validation\Validator as v;
 
 class AuthController extends Controller
 {
@@ -13,45 +17,18 @@ class AuthController extends Controller
 
     public function postSignUp($request, $response)
     {
-        $this->createUserTableIfNotExists();
-
-        $data = (object)$request->getParams();
-
-        $sql = "
-          SELECT * 
-          FROM users 
-          WHERE email = :email
-        ";
-        $stm = $this->db->prepare($sql);
-        $bind = [
-            ':email' => $data->email
-        ];
-        $stm->execute($bind);
-        $user = $stm->fetch();
-
-        if ($user) {
+        if ($this->validateRequest($request)->failed()) {
             return json_encode([
-                'error' => 'User exists already for this email'
+                'success' => false
             ]);
         }
 
-        $sql = "
-          INSERT INTO users 
-          (name, email, password, created_at)
-          VALUES (:name, :email, :password, CURRENT_TIMESTAMP)
-        ";
-        $stm = $this->db->prepare($sql);
-        $bind = [
-            ':name' => $data->name,
-            ':email' => $data->email,
-            ':password' =>  password_hash($data->password, PASSWORD_BCRYPT)
-        ];
-        $stm->execute($bind);
+        $this->createUserTableIfNotExists();
+        $data = (object)$request->getParams();
+        $this->userCreate($data);
 
-        //return $response->withRedirect($this->router->path_for('home'));
         return json_encode([
             'success' => true,
-            'message' => 'User signed up'
         ]);
     }
 
@@ -68,5 +45,29 @@ class AuthController extends Controller
         )";
         $stm = $this->db->prepare($sql);
         $stm->execute();
+    }
+
+    private function validateRequest($request)
+    {
+        $validator = $this->validator->validate($request, [
+            'email' => v::noWhitespace()->notEmpty()->email()->emailAvailable(),
+            'name' => v::notEmpty()->alpha(),
+            'password' => v::noWhitespace()->notEmpty(),
+        ]);
+
+        return $validator;
+    }
+
+    private function userCreate($data)
+    {
+        $datetime = new \DateTime('now');
+
+        $user = new User();
+        $user->name = $data->name;
+        $user->email = $data->email;
+        $user->password = password_hash($data->password, PASSWORD_BCRYPT);
+        $user->created_at = $datetime;
+        $user->updated_at = null;
+        $user->save();
     }
 }

@@ -1,0 +1,26 @@
+{
+  "name": "overhang",
+  "authors": [
+    "Paul Krishnamurthy <paul@paulkr.com>"
+  ],
+  "description": "A JQuery plugin for notifications, prompts and confirmations.",
+  "main": "",
+  "moduleType": [],
+  "keywords": [
+    "notifications",
+    "prompts",
+    "confirmations",
+    "alerts"
+  ],
+  "license": "MIT",
+  "homepage": "http://paulkr.github.io/overhang.js/",
+  "_release": "83852a5c2e",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "83852a5c2e833274760c521bef476f889f9b1a91"
+  },
+  "_source": "https://github.com/paulkr/overhang.js.git",
+  "_target": "*",
+  "_originalSource": "overhang"
+}

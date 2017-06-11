@@ -2,6 +2,8 @@
 
 define('DIR', __DIR__);
 
+use Respect\Validation\Validator as v;
+
 session_start();
 
 require DIR . '/../vendor/autoload.php';
@@ -66,10 +68,22 @@ $container['view'] = function ($container) {
     return $view;
 };
 
-$container['HomeController'] = function ($container) { return new \App\Controllers\HomeController($container); };
+$container['validator'] = function ($container) {
+    return new App\Validation\Validator;
+};
+
+$container['user'] = function ($container) {
+    return $container->Auth->user();
+};
+
 $container['AuthController'] = function ($container) { return new \App\Controllers\AuthController($container); };
+$container['HomeController'] = function ($container) { return new \App\Controllers\HomeController($container); };
 $container['UserController'] = function ($container) { return new \App\Controllers\UserController($container); };
 
+$app->add(new \App\Middleware\ValidationErrorsMiddleware($container));
+$app->add(new \App\Middleware\FormDataMiddleware($container));
+
+v::with('App\\Validation\\Rules\\');
 
 require DIR . '/../app/routes.php';
 

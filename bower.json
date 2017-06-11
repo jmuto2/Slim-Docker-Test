@@ -1,0 +1,8 @@
+{
+  "name": "Slim-Docker",
+  "dependencies": {
+    "overhang": "*",
+    "vue": "^1.0.18",
+    "vue-resource": "^0.9.3"
+  }
+}

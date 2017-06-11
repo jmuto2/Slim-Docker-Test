@@ -8,31 +8,38 @@
                     <div class="panel-heading">Sign up</div>
                     <div class="panel-body">
                         <form>
-                            <div class="form-group">
+                            <div class="col s12 input-field{{ errors.name ? ' has-error' : '' }}">
                                 <label for="name">Name</label>
-                                <input id="name" type="text" class="form-control grey-text" v-model="user.name" autofocus>
+                                <input id="name" type="text" class="form-control grey-text" value="{{ old.name }}" v-model="user.name">
+                                {% if errors.name %}
+                                <span class="help-block">{{ errors.name | first }}</span>
+                                {% endif %}
                             </div>
-                            <div class="form-group">
+                            <div class="col s12 input-field{{ errors.email ? ' has-error' : '' }}">
                                 <label for="email">Email</label>
-                                <input id="email" type="text" class="form-control grey-text" v-model="user.email">
+                                <input id="email" type="text" class="form-control grey-text" value="{{ old.email }}" v-model="user.email">
+                                {% if errors.email %}
+                                    <span class="help-block">{{ errors.email | first }}</span>
+                                {% endif %}
                             </div>
-                            <div class="form-group">
+                            <div class="col s12 input-field{{ errors.password ? ' has-error' : '' }}">
                                 <label for="password">Password</label>
                                 <input id="password" type="password" class="form-control grey-text" v-model="user.password">
+                                {% if errors.password %}
+                                    <span class="help-block">{{ errors.password | first }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="col s12 center-align signup-btn">
+                                <div class="input-field col-md-3 padding-b30">
+                                    <button type="submit" class="col s12 btn btn-med blue waves-effect" @click="add">Sign up</button>
+                                </div>
                             </div>
                         </form>
-                        <div class="row center-align signup-btn">
-                            <div class="input-field col-md-6 padding-b30">
-                                <button type="submit" class="col s12 btn btn-large blue waves-effect" @click="add">Sign up</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
 
 <script>
     var signup = new Vue({
@@ -41,19 +48,19 @@
            user: {}
        },
         methods: {
-          add: function () {
+          add: function (event) {
+              event.preventDefault();
 
               var url = "{{ path_for('auth.signup') }}";
               var data = this.user;
               $.post(url, data, function(data) {
                   if (data.success) {
-                    console.log(data.message)
-                      location.reload();
+                      window.location = "/dashboard";
                   } else {
-                      location.reload();
+                      window.location = "/home";
                   }
               }.bind(this), 'json');
-          } 
+          }
         }
 
     });
