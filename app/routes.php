@@ -9,11 +9,17 @@ $routes = (object) [
         ['get', '/signin',
             'AuthController:getSignIn', 'auth.getsignin'],
         ['post', '/signin',
-            'AuthController:postSignIn', 'auth.signin']
+            'AuthController:postSignIn', 'auth.signin'],
+        ['get', '/signout',
+            'AuthController:getSignOut', 'auth.signout'],
     ],
     'user' => [
         ['get', '/dashboard',
             'HomeController:index', 'home'],
+    ],
+    'photo' => [
+        ['post', '/photo',
+            'PhotoController:update', 'user.photoupdate'],
     ]
 ];
 

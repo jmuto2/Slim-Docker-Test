@@ -55,10 +55,6 @@ $container['db'] = function ($container) {
     }
 };
 
-$container['auth'] = function ($container) {
-    return new App\Auth\Auth;
-};
-
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig(DIR . '/../resources/views', [
         'cache' => false,
@@ -76,18 +72,18 @@ $container['view'] = function ($container) {
     return $view;
 };
 
-$container['validator'] = function ($container) {
-    return new App\Validation\Validator;
-};
-
 $container['AuthController'] = function ($container) { return new \App\Controllers\AuthController($container); };
 $container['HomeController'] = function ($container) { return new \App\Controllers\HomeController($container); };
+$container['PhotoController'] = function ($container) { return new \App\Controllers\PhotoController($container); };
 $container['UserController'] = function ($container) { return new \App\Controllers\UserController($container); };
+$container['HelperController'] = function ($container) { return new \App\Controllers\HelperController($container); };
 
 /*$container['csrf'] = function ($container) {
   return new \Slim\Csrf\Guard;
 };*/
-
+$container['auth'] = function ($container) {
+    return new App\Auth\Auth;
+};
 $app->add(new \App\Middleware\ValidationErrorsMiddleware($container));
 $app->add(new \App\Middleware\FormDataMiddleware($container));
 //$app->add(new \App\Middleware\CsrfViewMiddleware($container));

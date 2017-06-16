@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Validation;
+namespace App\Models;
 
-use App\Validation\Validator as Respect;
 use Respect\Validation\Exceptions\NestedValidationException;
 
-class Validator
+use Illuminate\Database\Eloquent\Model;
+
+class Elegant extends Model
 {
     protected $errors;
 
