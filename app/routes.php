@@ -2,6 +2,8 @@
 
 $routes = (object) [
     'auth' => [
+        ['get', '/',
+            'AuthController:index', 'auth.index'],
         ['get', '/home',
             'AuthController:getSignUp', 'auth.getsignup'],
         ['post', '/home',

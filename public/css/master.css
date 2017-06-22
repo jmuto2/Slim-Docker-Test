@@ -4,6 +4,35 @@ body {
     background-color: darkslategrey;
 }
 
+.index-panel-heading {
+    background-color: darkturquoise !important;
+}
+
+.index-button-pos {
+    margin-top: 75px;
+    text-align: center;
+}
+
+.panel-title {
+    font-size: 35px;
+    font-family: "Droid Sans"
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.buttons {
+    text-decoration: none;
+    color: white;
+    margin: 20px;
+}
+
+.img-index {
+    display: block;
+    margin: 0 auto;
+}
+
 .right {
     float: right;
 }
@@ -12,6 +41,9 @@ body {
     float: left;
 }
 
+.bottom {
+    margin-bottom: 50px;
+}
 .user-photo {
     margin-top: -15px;
 }
@@ -34,3 +66,4 @@ body {
 form {
     font-family: monospace;
 }
+

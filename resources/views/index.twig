@@ -1,0 +1,23 @@
+{% extends 'templates/master.twig' %}
+
+{% block content %}
+
+    <div>
+        <div class="panel panel-default bottom">
+            <div class="panel-heading index-panel-heading">
+                <h5 class="panel-title">
+                    Welcome to User Dashboard! Search using your favorite API's!
+                </h5>
+            </div>
+            <div class="panel-body index-panel-height">
+                <img class="img-index" src="{{ base_url() }}/imgs/cartoon.jpg" alt="Smiley face" width="525" height="321">
+                <div class="row index-button-pos">
+                    <a href="{{ path_for('auth.signup') }}" class="btn-lg blue buttons"><span class="center-align">Sign up</span></a>
+                    <a href="{{ path_for('auth.signin') }}" class="btn-lg blue buttons">Sign in</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

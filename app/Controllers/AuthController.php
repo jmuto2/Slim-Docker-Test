@@ -10,12 +10,18 @@ use Respect\Validation\Validator as v;
 
 class AuthController extends HelperController
 {
+    public function index($request, $response)
+    {
+        return $this->view->render($response, 'index.twig');
+    }
+
     public function getSignOut($request, $response)
     {
         $this->auth->logout();
 
-        return $response->withRedirect($this->router->pathFor('auth.getsignin'));
+        return $response->withRedirect($this->router->pathFor('auth.index'));
     }
+
     public function getSignIn($request, $response)
     {
         return $this->view->render($response, 'signin.twig');
