@@ -14,7 +14,7 @@ var signup = new Vue({
                 if (data.success) {
                     window.location = "/dashboard";
                 } else {
-                    window.location = "/home";
+                    window.location = "/auth";
                 }
             }.bind(this), 'json');
         }

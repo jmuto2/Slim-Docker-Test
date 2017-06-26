@@ -1,63 +1,74 @@
 {% extends 'templates/master.twig' %}
 
 {% block content %}
-    <div id="sign_in">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><h3>Sign in</h3></div>
-                    <div class="panel-body">
-                        <form>
-                            <div class="col s12 input-field{{ errors.email ? ' has-error' : '' }}">
-                                <label for="email">Email</label>
-                                <input id="email" type="text" class="form-control grey-text" value="{{ old.email }}" v-model="user.email">
-                                {% if errors.email %}
-                                    <span class="help-block">{{ errors.email | first }}</span>
-                                {% endif %}
-                            </div>
-                            <div class="col s12 input-field{{ errors.password ? ' has-error' : '' }}">
-                                <label for="password">Password</label>
-                                <input id="password" type="password" class="form-control grey-text" v-model="user.password">
-                                {% if errors.password %}
-                                    <span class="help-block">{{ errors.password | first }}</span>
-                                {% endif %}
-                            </div>
-                            <div class="col s12 center-align signup-btn">
-                                <div class="input-field col-md-3 padding-b30">
-                                    <button type="submit" class="col s12 btn btn-med blue waves-effect" @click="signin">Sign in</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+  <div id="sign_in">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+          <div class="panel-heading"><h3>Sign in</h3></div>
+          <div class="panel-body">
+            <form>
+              <div class="col s12 input-field{{ errors.email ? ' has-error' : '' }}">
+                <label for="email">Email</label>
+                <input id="email" type="text" class="form-control grey-text" value="{{ old.email }}"
+                       v-model="user.email">
+                {% if errors.email %}
+                  <span class="help-block">{{ errors.email | first }}</span>
+                {% endif %}
+              </div>
+              <div class="col s12 input-field{{ errors.password ? ' has-error' : '' }}">
+                <label for="password">Password</label>
+                <input id="password" type="password" class="form-control grey-text"
+                       v-model="user.password">
+                {% if errors.password %}
+                  <span class="help-block">{{ errors.password | first }}</span>
+                {% endif %}
+              </div>
+              <div class="col s12 center-align signup-btn">
+                <div class="input-field col-md-3 padding-b30">
+                  <button type="submit" class="col s12 btn btn-med blue waves-effect" @click="signin">
+                    Sign in
+                  </button>
                 </div>
-            </div>
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
-
-    <script>
-        var signin = new Vue({
-            el: '#sign_in',
-            data: {
-                user: {}
-            },
-            methods: {
-                signin: function (event) {
-                    event.preventDefault();
-
-                    var url = "{{ path_for('auth.signin') }}";
-                    var data = this.user;
-
-                    $.post(url, data, function(data) {
-                        if (data.success) {
-                            window.location = "/dashboard";
-                        } else {
-                            window.location = "/signin";
-                        }
-                    }.bind(this), 'json');
-                }
-            }
-
-        });
-
-    </script>
+  </div>
+  
+  <script>
+		var signin = new Vue({
+			el: '#sign_in',
+			data: {
+				user: {}
+			},
+			methods: {
+				signin: function (event) {
+					event.preventDefault();
+					
+					var url = "{{ path_for('auth.signin') }}";
+					var data = this.user;
+					
+					$.post(url, data, function (data) {
+						if (data.success) {
+							window.location = "/dashboard";
+						} else {
+							$("body").overhang({
+                type: 'error',
+								duration: 5,
+								message: data.message,
+        
+							});
+							setTimeout(function () {
+								window.location = "/signin";
+							}.bind(this), 5000);
+						}
+					}.bind(this), 'json');
+				}
+			}
+		});
+  
+  </script>
 {% endblock %}

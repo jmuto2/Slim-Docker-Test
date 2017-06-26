@@ -2,38 +2,45 @@
 
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Slim App</title>
-        <link rel="shortcut icon" href="">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css" />
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="{{ base_url() }}/vendor/overhang/dist/overhang.min.css" />
-        <link rel="stylesheet" type="text/css" href="{{ base_url() }}/css/master.css">
+<head>
+  <meta charset="UTF-8">
+  <title>Slim App</title>
+  <link rel="shortcut icon" href="">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{{ base_url() }}/vendor/overhang/dist/overhang.min.css"/>
+  <link rel="stylesheet" type="text/css" href="{{ base_url() }}/css/master.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+  <script src="{{ base_url() }}/vendor/overhang/dist/overhang.min.js"></script>
+  <script src="{{ base_url() }}/vendor/vue/dist/vue.js"></script>
+  <script src="{{ base_url() }}/vendor/vue-resource/dist/vue-resource.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+          integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+          crossorigin="anonymous"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-        <script src="{{ base_url() }}/vendor/overhang/dist/overhang.min.js"></script>
-        <script src="{{ base_url() }}/vendor/vue/dist/vue.js"></script>
-        <script src="{{ base_url() }}/vendor/vue-resource/dist/vue-resource.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
 
-    </head>
+<body>
 
-    <body>
+{% include 'templates/partials/navigation.twig' %}
+{% include 'templates/partials/password_edit_modal.twig' %}
 
-    {% include 'templates/partials/navigation.twig' %}
-    {% include 'templates/partials/photo_edit_modal.twig' %}
+{#
+{% include 'templates/partials/photo_edit_modal.twig' %}
+#}
 
-    <div class="container">
+<div class="container">
+  
+  {% block content %}{% endblock %}
+</div>
 
-        {% block content %}{% endblock %}
-    </div>
+{% include 'templates/partials/footer.twig' %}
 
-    {% include 'templates/partials/footer.twig' %}
-
-    </body>
+</body>
 
 </html>

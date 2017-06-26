@@ -1,70 +1,71 @@
 {% extends 'templates/master.twig' %}
 
 {% block content %}
-    <div id="sign_up">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><h3>Sign up</h3></div>
-                    <div class="panel-body">
-                        <form>
-                            <div class="col s12 input-field{{ errors.name ? ' has-error' : '' }}">
-                                <label for="name">Name</label>
-                                <input id="name" type="text" class="form-control grey-text" value="{{ old.name }}" v-model="user.name">
-                                {% if errors.name %}
-                                <span class="help-block">{{ errors.name | first }}</span>
-                                {% endif %}
-                            </div>
-                            <div class="col s12 input-field{{ errors.email ? ' has-error' : '' }}">
-                                <label for="email">Email</label>
-                                <input id="email" type="text" class="form-control grey-text" value="{{ old.email }}" v-model="user.email">
-                                {% if errors.email %}
-                                    <span class="help-block">{{ errors.email | first }}</span>
-                                {% endif %}
-                            </div>
-                            <div class="col s12 input-field{{ errors.password ? ' has-error' : '' }}">
-                                <label for="password">Password</label>
-                                <input id="password" type="password" class="form-control grey-text" v-model="user.password">
-                                {% if errors.password %}
-                                    <span class="help-block">{{ errors.password | first }}</span>
-                                {% endif %}
-                            </div>
-                            <div class="col s12 center-align signup-btn">
-                                <div class="input-field col-md-3 padding-b30">
-                                    <button type="submit" class="col s12 btn btn-med blue waves-effect" @click="add">Sign up</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+  <div id="sign_up">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+          <div class="panel-heading"><h3>Sign up</h3></div>
+          <div class="panel-body">
+            <form>
+              <div class="col s12 input-field{{ errors.name ? ' has-error' : '' }}">
+                <label for="name">Name</label>
+                <input id="name" type="text" class="form-control grey-text" value="{{ old.name }}" v-model="user.name">
+                {% if errors.name %}
+                  <span class="help-block">{{ errors.name | first }}</span>
+                {% endif %}
+              </div>
+              <div class="col s12 input-field{{ errors.email ? ' has-error' : '' }}">
+                <label for="email">Email</label>
+                <input id="email" type="text" class="form-control grey-text" value="{{ old.email }}"
+                       v-model="user.email">
+                {% if errors.email %}
+                  <span class="help-block">{{ errors.email | first }}</span>
+                {% endif %}
+              </div>
+              <div class="col s12 input-field{{ errors.password ? ' has-error' : '' }}">
+                <label for="password">Password</label>
+                <input id="password" type="password" class="form-control grey-text" v-model="user.password">
+                {% if errors.password %}
+                  <span class="help-block">{{ errors.password | first }}</span>
+                {% endif %}
+              </div>
+              <div class="col s12 center-align signup-btn">
+                <div class="input-field col-md-3 padding-b30">
+                  <button type="submit" class="col s12 btn btn-med blue waves-effect" @click="add">Sign up</button>
                 </div>
-            </div>
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
-
-<script>
-    var signup = new Vue({
-       el: '#sign_up',
-       data: {
-           user: {}
-       },
-        methods: {
-          add: function (event) {
-              event.preventDefault();
-
-              var url = "{{ path_for('auth.signup') }}";
-              var data = this.user;
-
-              $.post(url, data, function(data) {
-                  if (data.success) {
-                      window.location = "/dashboard";
-                  } else {
-                      window.location = "/home";
-                  }
-              }.bind(this), 'json');
-          }
-        }
-
-    });
-
-</script>
+  </div>
+  
+  <script>
+		var signup = new Vue({
+			el: '#sign_up',
+			data: {
+				user: {}
+			},
+			methods: {
+				add: function (event) {
+					event.preventDefault();
+					
+					var url = "{{ path_for('auth.signup') }}";
+					var data = this.user;
+					
+					$.post(url, data, function (data) {
+						if (data.success) {
+							window.location = "/dashboard";
+						} else {
+							window.location = "/home";
+						}
+					}.bind(this), 'json');
+				}
+			}
+			
+		});
+  
+  </script>
 {% endblock %}

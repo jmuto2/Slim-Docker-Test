@@ -3,6 +3,7 @@
 define('DIR', __DIR__);
 
 use Respect\Validation\Validator as v;
+use GuzzleHttp\Psr7\Request;
 
 session_start();
 
@@ -34,6 +35,16 @@ $capsule->bootEloquent();
 $container['model'] = function ($container) use ($capsule) {
     return $capsule;
 };
+
+$models = [
+    'user',
+];
+foreach ($models as $model) {
+    $model_path = "\\App\\Models\\".$model;
+    $container[$model.'Model'] = function ($container) use ($model_path) {
+        return new $model_path;
+    };
+}
 
 $container['config'] = function ($container) {
     $config = file_get_contents(__DIR__ . '/config.json');
@@ -72,11 +83,32 @@ $container['view'] = function ($container) {
     return $view;
 };
 
-$container['AuthController'] = function ($container) { return new \App\Controllers\AuthController($container); };
-$container['HomeController'] = function ($container) { return new \App\Controllers\HomeController($container); };
-$container['PhotoController'] = function ($container) { return new \App\Controllers\PhotoController($container); };
-$container['UserController'] = function ($container) { return new \App\Controllers\UserController($container); };
-$container['HelperController'] = function ($container) { return new \App\Controllers\HelperController($container); };
+$container['apifier'] = function ($container) {
+	return (object)['user_id' => 'GpYfW6pRCrGbnRDDx', 'token' => 'dbscKc6YvmXbos9d4GJXs2xRS'];
+};
+
+$container['client'] = function ($container) {
+	return new GuzzleHttp\Client();
+};
+
+$res = new Request('GET', "https://api.apifier.com/v1/GpYfW6pRCrGbnRDDx/crawlers?token=dbscKc6YvmXbos9d4GJXs2xRS&offset=10&limit=99&desc=1");
+
+var_dump($res);
+die;
+$controllers = [
+    'Auth',
+    'Home',
+    'User',
+		'Dashboard',
+    'Helper',
+];
+
+foreach ($controllers as $controller) {
+    $class = "\\App\\Controllers\\" . $controller . "Controller";
+    $container[$controller."Controller"] = function ($container) use ($class) {
+        return new $class($container);
+    };
+}
 
 /*$container['csrf'] = function ($container) {
   return new \Slim\Csrf\Guard;

@@ -1,0 +1,13 @@
+function pageFunction(context) {
+    // called on every page the crawler visits, use it to extract data from it
+    var $ = context.jQuery;
+    var results = [];
+    $('.rows li .result-info a.result-title').each(function() {
+        results.push({
+         id: $(this).data('id'),
+         description: $(this).text(),
+         link: $(this).attr('href'),
+        });
+    });
+    return results;
+}

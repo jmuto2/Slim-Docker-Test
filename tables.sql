@@ -1,0 +1,10 @@
+ALTER DATABASE slim COLLATE = 'utf8_general_ci';
+
+CREATE TABLE IF NOT EXISTS users (
+id INT(11) AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(60) NOT NULL,
+email VARCHAR(50),
+password VARCHAR(60) NOT NULL,
+created_at DATETIME,
+updated_at DATETIME
+);
